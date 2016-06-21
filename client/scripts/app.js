@@ -1,9 +1,6 @@
 // YOUR CODE HERE:
-var app = {
-  username: 'hien',
-  text: 'hey',
-  roomname: 'hey'
-};
+var data;
+var app = {};
 
 app.init = function () {
   // AJAX get messages from api
@@ -16,12 +13,14 @@ app.init = function () {
     success: function(data) {
       _.each(data.results, function(message) {
         message.roomname = message.roomname || 'none';
-        var room = message.roomname.split(' ').join(''); 
+        var room = message.roomname.split(' ').join('_');
+        message.username = message.username || 'anonymous';
+        var user = message.username.split(' ').join('_');
         if ( !$('#' + room ).length ) {
           var $room = '<div id=' + room + '></div>';
           $('#roomSelect').append($room);
         }
-        var $msg = '<div>' + message.username + ':' + message.text + '</div>';
+        var $msg = '<div class=' + user + '>' + message.username + ':' + message.text + '</div>';
         $('#' + room).append($msg);
       });
     },
@@ -85,11 +84,26 @@ app.addRoom = function (room) {
   }
 };
 
-var data;
+app.addFriend = function (friend) {
+  // friend.addClass('friend');
+  // friend.
+  var name = friend.classList[0];
+  $('.' + name).addClass('addFriend'); 
+  console.log(friend);
+};
+
+
 
 $(document).ready(function() {
-  
   app.init();
-
-
 });
+
+$(document).on('click', '#roomSelect > div > div', function() {
+  app.addFriend(this);
+});
+
+
+
+
+
+
