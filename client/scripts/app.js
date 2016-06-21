@@ -74,7 +74,7 @@ app.clearMessages = function () {
 app.addMessage = function (msg) {
   app.send(msg);
   var $msg = '<div>' + msg.username + ':' + msg.text + '</div>';
-  $('#chats').append($msg);
+  $('#chats').prepend($msg);
 };
 
 app.addRoom = function (room) {
@@ -92,7 +92,15 @@ app.addFriend = function (friend) {
   console.log(friend);
 };
 
-
+app.handleSubmit = function () {
+  var text = $('input').val();
+  var message = {
+    username: 'me',
+    roomname: 'lobby',
+    text: text
+  };
+  app.addMessage(message);
+};
 
 $(document).ready(function() {
   app.init();
@@ -101,6 +109,8 @@ $(document).ready(function() {
 $(document).on('click', '#roomSelect > div > div', function() {
   app.addFriend(this);
 });
+
+$(document).on('click', '.button', app.handleSubmit);
 
 
 
